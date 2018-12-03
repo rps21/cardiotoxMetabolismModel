@@ -1,0 +1,231 @@
+<?xml version="1.0" ?>
+<ekb>
+	<input type="text">
+		<paragraphs>
+			<paragraph file="/Users/wbeaumont/drum/etc/Data/WP/TEXT00201_IO-2730739" id="paragraph200">SORAFENIB dephosphorylates RPS6. SORAFENIB phosphorylates PKM. SORAFENIB transcribes HIF1A.</paragraph>
+		</paragraphs>
+		<sentences>
+			<sentence id="398" pid="paragraph200">SORAFENIB dephosphorylates RPS6.</sentence>
+			<sentence id="399" pid="paragraph200">SORAFENIB phosphorylates PKM.</sentence>
+			<sentence id="400" pid="paragraph200">SORAFENIB transcribes HIF1A.</sentence>
+		</sentences>
+	</input>
+	<EVENT end="31" id="V2730762" lisp="(ONT::EVENT ONT::V2730762 ONT::PHOSPHORYLATION :AGENT ONT::V2730742 :AFFECTED ONT::V2730777 :MODN (ONT::MANNER-UNDO W::DE-) :FORCE ONT::TRUE :TENSE W::PRES)" paragraph="paragraph200" rule="-RULE60_4_AGENT_AFFECTED-MODN1_2" start="0" uttnum="398">
+		<type>ONT::PHOSPHORYLATION</type>
+		<force>ONT::TRUE</force>
+		<mods>
+			<mod>
+				<type>ONT::MANNER-UNDO</type>
+				<value>DE-</value>
+			</mod>
+		</mods>
+		<predicate end="31" id="V2730762" start="0">
+			<type>ONT::PHOSPHORYLATION</type>
+			<text>SORAFENIB dephosphorylates RPS6</text>
+		</predicate>
+		<arg1 end="10" id="V2730742" role=":AGENT" start="0">
+			<type>ONT::PHARMACOLOGIC-SUBSTANCE</type>
+			<text normalization="">SORAFENIB</text>
+		</arg1>
+		<arg2 end="31" id="V2730777" role=":AFFECTED" start="27">
+			<type>ONT::GENE</type>
+			<text normalization="">RPS6</text>
+		</arg2>
+		<text>SORAFENIB dephosphorylates RPS6</text>
+	</EVENT>
+	<TERM dbid="PC:216239|MESH:C471405|NCIT:C61948|NCIT:C2194" end="10" id="V2730742" lisp="(ONT::TERM ONT::V2730742 ONT::PHARMACOLOGIC-SUBSTANCE :NAME W::SORAFENIB :DRUM ((:DRUM (TERM :ID PC::|216239| :NAME &quot;Sorafenib&quot; :SCORE 0.85081 :MATCHES ((MATCH :SCORE 0.85081 :MATCHED &quot;Sorafenib&quot; :STATUS &quot;Name&quot; :ALL-CAPS-INITIAL-CAP 1)) :ONT-TYPES (ONT::PHARMACOLOGIC-SUBSTANCE)) (TERM :ID NCIT::C61948 :NAME &quot;sorafenib&quot; :SCORE 0.85013 :MATCHES ((MATCH :SCORE 0.85013 :MATCHED &quot;sorafenib&quot; :STATUS &quot;name&quot; :ALL-CAPS-NO-CAPS 1) (MATCH :SCORE 0.70732 :MATCHED &quot;SORAFENIB&quot; :STATUS &quot;synonym&quot; :EXACT 1)) :ONT-TYPES (ONT::PHARMACOLOGIC-SUBSTANCE)) (TERM :ID MESH::C471405 :NAME &quot;sorafenib&quot; :SCORE 0.85013 :MATCHES ((MATCH :SCORE 0.85013 :MATCHED &quot;sorafenib&quot; :STATUS &quot;NM&quot; :ALL-CAPS-NO-CAPS 1)) :ONT-TYPES (ONT::PHARMACOLOGIC-SUBSTANCE)) (TERM :ID NCIT::C2194 :NAME &quot;BAY 43-9006&quot; :SCORE 0.70379 :MATCHES ((MATCH :SCORE 0.70379 :MATCHED &quot;sorafenib&quot; :STATUS &quot;synonym&quot; :ALL-CAPS-NO-CAPS 1)) :ONT-TYPES (ONT::PHARMACOLOGIC-SUBSTANCE)))))" paragraph="paragraph200" rule="-SIMPLE-REF" start="0" uttnum="398">
+		<type>ONT::PHARMACOLOGIC-SUBSTANCE</type>
+		<name>SORAFENIB</name>
+		<drum-terms>
+			<drum-term dbid="PC:216239" match-score="0.85081" matched-name="Sorafenib" name="Sorafenib">
+				<types>
+					<type>ONT::PHARMACOLOGIC-SUBSTANCE</type>
+				</types>
+			</drum-term>
+			<drum-term dbid="NCIT:C61948" match-score="0.85013" matched-name="sorafenib" name="sorafenib">
+				<types>
+					<type>ONT::PHARMACOLOGIC-SUBSTANCE</type>
+				</types>
+			</drum-term>
+			<drum-term dbid="MESH:C471405" match-score="0.85013" matched-name="sorafenib" name="sorafenib">
+				<types>
+					<type>ONT::PHARMACOLOGIC-SUBSTANCE</type>
+				</types>
+			</drum-term>
+			<drum-term dbid="NCIT:C2194" match-score="0.70379" matched-name="sorafenib" name="BAY 43-9006">
+				<types>
+					<type>ONT::PHARMACOLOGIC-SUBSTANCE</type>
+				</types>
+			</drum-term>
+		</drum-terms>
+		<text>SORAFENIB</text>
+	</TERM>
+	<TERM dbid="HGNC:10429|NCIT:C91351|UP:P62753" end="31" id="V2730777" lisp="(ONT::TERM ONT::V2730777 ONT::GENE :NAME W::RPS-6 :DRUM ((:DRUM (TERM :ID HGNC::|10429| :NAME &quot;ribosomal protein S6&quot; :SCORE 0.85366 :MATCHES ((MATCH :SCORE 0.85366 :MATCHED &quot;RPS6&quot; :STATUS &quot;Approved Symbol&quot; :EXACT 1)) :DBXREFS (UP::P62753) :ONT-TYPES (ONT::GENE)) (TERM :ID NCIT::C91351 :NAME &quot;RPS6&quot; :SCORE 0.85366 :MATCHES ((MATCH :SCORE 0.85366 :MATCHED &quot;RPS6&quot; :STATUS &quot;name&quot; :EXACT 1)) :ONT-TYPES (ONT::GENE)))))" paragraph="paragraph200" rule="-SIMPLE-REF" start="27" uttnum="398">
+		<type>ONT::GENE</type>
+		<name>RPS-6</name>
+		<drum-terms>
+			<drum-term dbid="HGNC:10429" match-score="0.85366" matched-name="RPS6" name="ribosomal protein S6">
+				<types>
+					<type>ONT::GENE</type>
+				</types>
+				<xrefs>
+					<xref dbid="UP:P62753"/>
+				</xrefs>
+			</drum-term>
+			<drum-term dbid="NCIT:C91351" match-score="0.85366" matched-name="RPS6" name="RPS6">
+				<types>
+					<type>ONT::GENE</type>
+				</types>
+			</drum-term>
+		</drum-terms>
+		<text>RPS6</text>
+	</TERM>
+	<EVENT end="61" id="V2731073" lisp="(ONT::EVENT ONT::V2731073 ONT::PHOSPHORYLATION :AGENT ONT::V2731058 :AFFECTED ONT::V2731078 :FORCE ONT::TRUE :DRUM ((:DRUM (TERM :ID GO::|0006468| :NAME &quot;protein phosphorylation&quot; :SCORE 0.85366 :MATCHES ((MATCH :SCORE 0.85366 :MATCHED &quot;protein phosphorylation&quot; :STATUS &quot;name&quot; :EXACT 2)) :ONT-TYPES (ONT::POST-TRANSLATIONAL-MODIFICATION)))) :TENSE W::PRES)" paragraph="paragraph200" rule="-RULE60_4_AGENT_AFFECTED" start="33" uttnum="399">
+		<type>ONT::PHOSPHORYLATION</type>
+		<force>ONT::TRUE</force>
+		<predicate end="61" id="V2731073" start="33">
+			<type>ONT::PHOSPHORYLATION</type>
+			<text>SORAFENIB phosphorylates PKM</text>
+		</predicate>
+		<arg1 end="43" id="V2731058" role=":AGENT" start="33">
+			<type>ONT::PHARMACOLOGIC-SUBSTANCE</type>
+			<text normalization="">SORAFENIB</text>
+		</arg1>
+		<arg2 end="61" id="V2731078" role=":AFFECTED" start="58">
+			<type>ONT::GENE-PROTEIN</type>
+			<text normalization="">PKM</text>
+		</arg2>
+		<drum-terms>
+			<drum-term dbid="GO:0006468" match-score="0.85366" matched-name="protein phosphorylation" name="protein phosphorylation">
+				<types>
+					<type>ONT::POST-TRANSLATIONAL-MODIFICATION</type>
+				</types>
+			</drum-term>
+		</drum-terms>
+		<text>SORAFENIB phosphorylates PKM</text>
+	</EVENT>
+	<TERM dbid="PC:216239|MESH:C471405|NCIT:C61948|NCIT:C2194" end="43" id="V2731058" lisp="(ONT::TERM ONT::V2731058 ONT::PHARMACOLOGIC-SUBSTANCE :NAME W::SORAFENIB :DRUM ((:DRUM (TERM :ID PC::|216239| :NAME &quot;Sorafenib&quot; :SCORE 0.85081 :MATCHES ((MATCH :SCORE 0.85081 :MATCHED &quot;Sorafenib&quot; :STATUS &quot;Name&quot; :ALL-CAPS-INITIAL-CAP 1)) :ONT-TYPES (ONT::PHARMACOLOGIC-SUBSTANCE)) (TERM :ID NCIT::C61948 :NAME &quot;sorafenib&quot; :SCORE 0.85013 :MATCHES ((MATCH :SCORE 0.85013 :MATCHED &quot;sorafenib&quot; :STATUS &quot;name&quot; :ALL-CAPS-NO-CAPS 1) (MATCH :SCORE 0.70732 :MATCHED &quot;SORAFENIB&quot; :STATUS &quot;synonym&quot; :EXACT 1)) :ONT-TYPES (ONT::PHARMACOLOGIC-SUBSTANCE)) (TERM :ID MESH::C471405 :NAME &quot;sorafenib&quot; :SCORE 0.85013 :MATCHES ((MATCH :SCORE 0.85013 :MATCHED &quot;sorafenib&quot; :STATUS &quot;NM&quot; :ALL-CAPS-NO-CAPS 1)) :ONT-TYPES (ONT::PHARMACOLOGIC-SUBSTANCE)) (TERM :ID NCIT::C2194 :NAME &quot;BAY 43-9006&quot; :SCORE 0.70379 :MATCHES ((MATCH :SCORE 0.70379 :MATCHED &quot;sorafenib&quot; :STATUS &quot;synonym&quot; :ALL-CAPS-NO-CAPS 1)) :ONT-TYPES (ONT::PHARMACOLOGIC-SUBSTANCE)))))" paragraph="paragraph200" rule="-SIMPLE-REF" start="33" uttnum="399">
+		<type>ONT::PHARMACOLOGIC-SUBSTANCE</type>
+		<name>SORAFENIB</name>
+		<drum-terms>
+			<drum-term dbid="PC:216239" match-score="0.85081" matched-name="Sorafenib" name="Sorafenib">
+				<types>
+					<type>ONT::PHARMACOLOGIC-SUBSTANCE</type>
+				</types>
+			</drum-term>
+			<drum-term dbid="NCIT:C61948" match-score="0.85013" matched-name="sorafenib" name="sorafenib">
+				<types>
+					<type>ONT::PHARMACOLOGIC-SUBSTANCE</type>
+				</types>
+			</drum-term>
+			<drum-term dbid="MESH:C471405" match-score="0.85013" matched-name="sorafenib" name="sorafenib">
+				<types>
+					<type>ONT::PHARMACOLOGIC-SUBSTANCE</type>
+				</types>
+			</drum-term>
+			<drum-term dbid="NCIT:C2194" match-score="0.70379" matched-name="sorafenib" name="BAY 43-9006">
+				<types>
+					<type>ONT::PHARMACOLOGIC-SUBSTANCE</type>
+				</types>
+			</drum-term>
+		</drum-terms>
+		<text>SORAFENIB</text>
+	</TERM>
+	<TERM dbid="XFAM:PF00069|HGNC:9021|UP:P14618|NCIT:C74442|UP:Q9WUM7" end="61" id="V2731078" lisp="(ONT::TERM ONT::V2731078 ONT::GENE-PROTEIN :NAME W::PKM :DRUM ((:DRUM (TERM :ID HGNC::|9021| :NAME &quot;pyruvate kinase, muscle&quot; :SCORE 0.85366 :MATCHES ((MATCH :SCORE 0.85366 :MATCHED &quot;PKM&quot; :STATUS &quot;Approved Symbol&quot; :EXACT 1)) :DBXREFS (UP::P14618) :ONT-TYPES (ONT::GENE)) (TERM :ID NCIT::C74442 :NAME &quot;PKM2&quot; :SCORE 0.70732 :MATCHES ((MATCH :SCORE 0.70732 :MATCHED &quot;PKM&quot; :STATUS &quot;synonym&quot; :EXACT 1)) :ONT-TYPES (ONT::GENE)) (TERM :ID UP::Q9WUM7 :NAME &quot;Homeodomain-interacting protein kinase 2&quot; :SCORE 0.56098 :MATCHES ((MATCH :SCORE 0.56098 :MATCHED &quot;PKM&quot; :STATUS &quot;AltName: Full&quot; :EXACT 1)) :DBXREFS (XFAM::PF00069) :ONT-TYPES (ONT::PROTEIN)))))" paragraph="paragraph200" rule="-SIMPLE-REF" start="58" uttnum="399">
+		<type>ONT::GENE-PROTEIN</type>
+		<name>PKM</name>
+		<drum-terms>
+			<drum-term dbid="HGNC:9021" match-score="0.85366" matched-name="PKM" name="pyruvate kinase, muscle">
+				<types>
+					<type>ONT::GENE</type>
+				</types>
+				<xrefs>
+					<xref dbid="UP:P14618"/>
+				</xrefs>
+			</drum-term>
+			<drum-term dbid="NCIT:C74442" match-score="0.70732" matched-name="PKM" name="PKM2">
+				<types>
+					<type>ONT::GENE</type>
+				</types>
+			</drum-term>
+			<drum-term dbid="UP:Q9WUM7" match-score="0.56098" matched-name="PKM" name="Homeodomain-interacting protein kinase 2">
+				<types>
+					<type>ONT::PROTEIN</type>
+				</types>
+				<xrefs>
+					<xref dbid="XFAM:PF00069"/>
+				</xrefs>
+			</drum-term>
+		</drum-terms>
+		<text>PKM</text>
+	</TERM>
+	<EVENT end="90" id="V2731211" lisp="(ONT::EVENT ONT::V2731211 ONT::TRANSCRIBE :AGENT ONT::V2731195 :AFFECTED-RESULT ONT::V2731275 :FORCE ONT::TRUE :TENSE W::PRES)" paragraph="paragraph200" rule="-RULE50_4_AGENT_AFFECTED-RESULT" start="63" uttnum="400">
+		<type>ONT::TRANSCRIBE</type>
+		<force>ONT::TRUE</force>
+		<predicate end="90" id="V2731211" start="63">
+			<type>ONT::TRANSCRIBE</type>
+			<text>SORAFENIB transcribes HIF1A</text>
+		</predicate>
+		<arg1 end="73" id="V2731195" role=":AGENT" start="63">
+			<type>ONT::PHARMACOLOGIC-SUBSTANCE</type>
+			<text normalization="">SORAFENIB</text>
+		</arg1>
+		<arg2 end="90" id="V2731275" role=":AFFECTED-RESULT" start="85">
+			<type>ONT::GENE-PROTEIN</type>
+			<text normalization="">HIF1A</text>
+		</arg2>
+		<text>SORAFENIB transcribes HIF1A</text>
+	</EVENT>
+	<TERM dbid="PC:216239|MESH:C471405|NCIT:C61948|NCIT:C2194" end="73" id="V2731195" lisp="(ONT::TERM ONT::V2731195 ONT::PHARMACOLOGIC-SUBSTANCE :NAME W::SORAFENIB :DRUM ((:DRUM (TERM :ID PC::|216239| :NAME &quot;Sorafenib&quot; :SCORE 0.85081 :MATCHES ((MATCH :SCORE 0.85081 :MATCHED &quot;Sorafenib&quot; :STATUS &quot;Name&quot; :ALL-CAPS-INITIAL-CAP 1)) :ONT-TYPES (ONT::PHARMACOLOGIC-SUBSTANCE)) (TERM :ID NCIT::C61948 :NAME &quot;sorafenib&quot; :SCORE 0.85013 :MATCHES ((MATCH :SCORE 0.85013 :MATCHED &quot;sorafenib&quot; :STATUS &quot;name&quot; :ALL-CAPS-NO-CAPS 1) (MATCH :SCORE 0.70732 :MATCHED &quot;SORAFENIB&quot; :STATUS &quot;synonym&quot; :EXACT 1)) :ONT-TYPES (ONT::PHARMACOLOGIC-SUBSTANCE)) (TERM :ID MESH::C471405 :NAME &quot;sorafenib&quot; :SCORE 0.85013 :MATCHES ((MATCH :SCORE 0.85013 :MATCHED &quot;sorafenib&quot; :STATUS &quot;NM&quot; :ALL-CAPS-NO-CAPS 1)) :ONT-TYPES (ONT::PHARMACOLOGIC-SUBSTANCE)) (TERM :ID NCIT::C2194 :NAME &quot;BAY 43-9006&quot; :SCORE 0.70379 :MATCHES ((MATCH :SCORE 0.70379 :MATCHED &quot;sorafenib&quot; :STATUS &quot;synonym&quot; :ALL-CAPS-NO-CAPS 1)) :ONT-TYPES (ONT::PHARMACOLOGIC-SUBSTANCE)))))" paragraph="paragraph200" rule="-SIMPLE-REF" start="63" uttnum="400">
+		<type>ONT::PHARMACOLOGIC-SUBSTANCE</type>
+		<name>SORAFENIB</name>
+		<drum-terms>
+			<drum-term dbid="PC:216239" match-score="0.85081" matched-name="Sorafenib" name="Sorafenib">
+				<types>
+					<type>ONT::PHARMACOLOGIC-SUBSTANCE</type>
+				</types>
+			</drum-term>
+			<drum-term dbid="NCIT:C61948" match-score="0.85013" matched-name="sorafenib" name="sorafenib">
+				<types>
+					<type>ONT::PHARMACOLOGIC-SUBSTANCE</type>
+				</types>
+			</drum-term>
+			<drum-term dbid="MESH:C471405" match-score="0.85013" matched-name="sorafenib" name="sorafenib">
+				<types>
+					<type>ONT::PHARMACOLOGIC-SUBSTANCE</type>
+				</types>
+			</drum-term>
+			<drum-term dbid="NCIT:C2194" match-score="0.70379" matched-name="sorafenib" name="BAY 43-9006">
+				<types>
+					<type>ONT::PHARMACOLOGIC-SUBSTANCE</type>
+				</types>
+			</drum-term>
+		</drum-terms>
+		<text>SORAFENIB</text>
+	</TERM>
+	<TERM dbid="UP:Q16665|NCIT:C52040|NCIT:C20214|HGNC:4910" end="90" id="V2731275" lisp="(ONT::TERM ONT::V2731275 ONT::GENE-PROTEIN :NAME W::HIF-1-A :DRUM ((:DRUM (TERM :ID NCIT::C52040 :NAME &quot;HIF1A&quot; :SCORE 0.85366 :MATCHES ((MATCH :SCORE 0.85366 :MATCHED &quot;HIF1A&quot; :STATUS &quot;name&quot; :EXACT 2) (MATCH :SCORE 0.70727 :MATCHED &quot;HIF-1A&quot; :STATUS &quot;synonym&quot; :NO-DASH-DASH 1 :EXACT 2)) :ONT-TYPES (ONT::GENE)) (TERM :ID HGNC::|4910| :NAME &quot;hypoxia inducible factor 1 alpha subunit&quot; :SCORE 0.85366 :MATCHES ((MATCH :SCORE 0.85366 :MATCHED &quot;HIF1A&quot; :STATUS &quot;Approved Symbol&quot; :EXACT 2)) :DBXREFS (UP::Q16665) :ONT-TYPES (ONT::GENE)) (TERM :ID NCIT::C20214 :NAME &quot;hypoxia-inducible factor-1 alpha subunit&quot; :SCORE 0.70732 :MATCHES ((MATCH :SCORE 0.70732 :MATCHED &quot;HIF1A&quot; :STATUS &quot;synonym&quot; :EXACT 2)) :ONT-TYPES (ONT::PROTEIN)))))" paragraph="paragraph200" rule="-SIMPLE-REF" start="85" uttnum="400">
+		<type>ONT::GENE-PROTEIN</type>
+		<name>HIF-1-A</name>
+		<drum-terms>
+			<drum-term dbid="NCIT:C52040" match-score="0.85366" matched-name="HIF1A" name="HIF1A">
+				<types>
+					<type>ONT::GENE</type>
+				</types>
+			</drum-term>
+			<drum-term dbid="HGNC:4910" match-score="0.85366" matched-name="HIF1A" name="hypoxia inducible factor 1 alpha subunit">
+				<types>
+					<type>ONT::GENE</type>
+				</types>
+				<xrefs>
+					<xref dbid="UP:Q16665"/>
+				</xrefs>
+			</drum-term>
+			<drum-term dbid="NCIT:C20214" match-score="0.70732" matched-name="HIF1A" name="hypoxia-inducible factor-1 alpha subunit">
+				<types>
+					<type>ONT::PROTEIN</type>
+				</types>
+			</drum-term>
+		</drum-terms>
+		<text>HIF1A</text>
+	</TERM>
+</ekb>

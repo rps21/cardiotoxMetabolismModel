@@ -1,0 +1,318 @@
+begin parameters
+
+	#Concentrations
+	glucose_0	0
+	pyruvate_0	0
+	lactate_0	0
+	serine_0	0
+	acetylcoa_0	0
+	
+	hk_0		1000
+	pgi_0		1000
+	pfk_0		1000
+	aldo_0		1000
+	gapdh_0		1000
+	pgk_0		1000
+	pgm_0		1000
+	eno_0		1000
+	pk_0		5000
+	
+	#gluconeogenesis specific
+	ldh_0		1000
+	pc_0		1000
+	pepck_0		1000	
+	fbp_0		1000
+	g6pc_0		1000				
+	
+	#serine synthesis
+	phgdh_0		1000
+	psat1_0		1000
+	psph_0		1000
+	
+	#pyruvate consumption
+	pdc_0		1000
+	
+	#Rates
+	kbf			5e-6
+	kbr			1e-1
+	kf			5e-1
+	kdeg		0#1e-3
+	kprod		2.5
+
+	#test pkm2 effects
+	kbfp		5e-1
+end parameters
+
+begin molecule types
+
+	#Enzymes
+	HK(bind,active~N~Y)
+	GPI(bind,active~N~Y)
+	PFK(bind,active~N~Y)
+	ALDO(bind,active~N~Y)
+	GAPDH(bind,active~N~Y)
+	PGK(bind,active~N~Y)
+	PGM(bind,active~N~Y)
+	ENO(bind,active~N~Y)
+	PKM2(ser,bind,active~N~Y)
+	
+	#gluconeogeneis specific enzymes
+	LDH(bind,active~N~Y)
+	PC(bind,active~N~Y)
+	PEPCK(bind,active~N~Y)
+	G6PC(bind,active~N~Y)
+	FBP(bind,active~N~Y)
+	
+	#serine synthesis enzymes
+	PHGDH(bind,active~N~Y)
+	PSAT1(bind,active~N~Y)
+	PSPH(bind,active~N~Y)
+	
+	#pyruvate consumption enzymes
+	PDC(bind,active~N~Y)
+
+	#Metabolites
+	Glucose(bind)
+	G6P(bind)
+	F6P(bind)
+	F16BP(bind)
+	GADP(bind)
+	BP13G(bind)
+	PG3(bind)
+	PG2(bind)
+	PEP(bind)
+	Pyruvate(bind)
+	Lactate(bind)
+	Oxaloacetate(bind)
+	AcetylCoA()
+	
+	#serine synthesis metabolites
+	PHP3(bind)
+	PS3(bind)
+	Serine(bind)
+	
+	energy_sink()
+	readout()
+	
+	
+end molecule types
+
+begin seed species
+
+	#Enzymes
+	HK(bind,active~Y)		hk_0
+	GPI(bind,active~Y)		pgi_0
+	PFK(bind,active~Y)		pfk_0
+	ALDO(bind,active~Y)		aldo_0
+	GAPDH(bind,active~Y)	gapdh_0
+	PGK(bind,active~Y)		pgk_0
+	PGM(bind,active~Y)		pgm_0
+	ENO(bind,active~Y)		eno_0
+	PKM2(ser,bind,active~Y)		pk_0
+
+	#gluconeogenesis specific enzymes
+	LDH(bind,active~Y)		ldh_0
+	PC(bind,active~Y)		pc_0
+	PEPCK(bind,active~Y)	pepck_0
+	FBP(bind,active~Y)		fbp_0
+	G6PC(bind,active~Y)		g6pc_0
+	
+	#serine synthesis enzymes
+	PHGDH(bind,active~Y)	phgdh_0
+	PSAT1(bind,active~Y)	psat1_0
+	PSPH(bind,active~Y)		psph_0
+	
+	#pyruvate consumption enzymes
+	PDC(bind,active~Y)		pdc_0
+	
+	#Metabolites
+	Glucose(bind)			glucose_0
+	Pyruvate(bind)			pyruvate_0
+	Lactate(bind)			lactate_0
+	Serine(bind)			serine_0
+	AcetylCoA()				acetylcoa_0	
+	
+	readout()	0
+		
+end seed species
+
+begin observables
+
+	Molecules	glucose		Glucose()
+	Molecules	g6p			G6P()
+	Molecules	f6p			F6P()
+	Molecules	f16bp		F16BP()
+	Molecules	gadp		GADP()
+	Molecules	bpg13		BP13G()
+	Molecules	pg3			PG3()
+	Molecules	pg2			PG2()
+	Molecules	pep			PEP()
+	Molecules	pyruvate	Pyruvate()
+	Molecules	lactate		Lactate()
+	Molecules	php3		PHP3()
+	Molecules	serine_p3	PS3()
+	Molecules	serine		Serine()
+	Molecules	acetyl_CoA	AcetylCoA()
+	Molecules	pkm2_free	PKM2(bind)
+	Molecules	PKM2_PEP	PKM2().PEP()
+	Molecules	PKM2_Serine	PKM2().Serine()
+	Molecules	PKM_total	PKM2()
+	Molecules	pkm_pep_readout	readout()
+	Molecules	pkm_ser_ready	PKM2(ser!+,bind,active~Y)
+	Molecules	pep_ready		PEP(bind)
+		
+end observables
+
+begin reaction rules
+ 
+#Glycolysis
+HK(bind,active~Y) + Glucose(bind) <-> HK(bind!1,active~Y).Glucose(bind!1)	kbf,kbr
+HK(bind!1,active~Y).Glucose(bind!1) -> HK(bind,active~Y) + G6P(bind)	kf
+
+GPI(bind,active~Y) + G6P(bind) <-> GPI(bind!1,active~Y).G6P(bind!1)	kbf,kbr
+GPI(bind!1,active~Y).G6P(bind!1) -> GPI(bind,active~Y) + F6P(bind)	kf
+
+PFK(bind,active~Y) + F6P(bind) <-> PFK(bind!1,active~Y).F6P(bind!1)	kbf,kbr
+PFK(bind!1,active~Y).F6P(bind!1) -> PFK(bind,active~Y) + F16BP(bind)	kf
+
+ALDO(bind,active~Y) + F16BP(bind) <-> ALDO(bind!1,active~Y).F16BP(bind!1)	kbf,kbr
+ALDO(bind!1,active~Y).F16BP(bind!1) -> ALDO(bind,active~Y) + GADP(bind)	kf
+
+GAPDH(bind,active~Y) + GADP(bind) <-> GAPDH(bind!1,active~Y).GADP(bind!1)	kbf,kbr
+GAPDH(bind!1,active~Y).GADP(bind!1) -> GAPDH(bind,active~Y) + BP13G(bind)	kf
+
+PGK(bind,active~Y) + BP13G(bind) <-> PGK(bind!1,active~Y).BP13G(bind!1)	kbf,kbr
+PGK(bind!1,active~Y).BP13G(bind!1) -> PGK(bind,active~Y) + PG3(bind)	kf
+
+PGM(bind,active~Y) + PG3(bind) <-> PGM(bind!1,active~Y).PG3(bind!1)	kbf,kbr
+PGM(bind!1,active~Y).PG3(bind!1) -> PGM(bind,active~Y) + PG2(bind)	kf
+
+ENO(bind,active~Y) + PG2(bind) <-> ENO(bind!1,active~Y).PG2(bind!1)	kbf,kbr
+ENO(bind!1,active~Y).PG2(bind!1) -> ENO(bind,active~Y) + PEP(bind)	kf
+
+#PKM2(ser,bind,active~Y) + PEP(bind) <-> PKM2(ser,bind!1,active~Y).PEP(bind!1)	kbfp/100,kbr
+#PKM2(ser,bind!1,active~Y).PEP(bind!1) -> PKM2(ser,bind,active~Y) + Pyruvate(bind)	kf
+
+###############################
+###### Gluconeogenesis ########
+###############################
+
+LDH(bind,active~Y) + Lactate(bind) <-> LDH(bind!1,active~Y).Lactate(bind!1)	kbf,kbr
+LDH(bind!1,active~Y).Lactate(bind!1) -> LDH(bind,active~Y) + Pyruvate(bind)	kf
+
+PC(bind,active~Y) + Pyruvate(bind) <-> PC(bind!1,active~Y).Pyruvate(bind!1)	kbf,kbr
+PC(bind!1,active~Y).Pyruvate(bind!1) -> PC(bind,active~Y) + Oxaloacetate(bind)	kf
+
+PEPCK(bind,active~Y) + Oxaloacetate(bind) <-> PEPCK(bind!1,active~Y).Oxaloacetate(bind!1)	kbf,kbr
+PEPCK(bind!1,active~Y).Oxaloacetate(bind!1) -> PEPCK(bind,active~Y) + PEP(bind)	kf
+
+ENO(bind,active~Y) + PEP(bind) <-> ENO(bind!1,active~Y).PEP(bind!1)	kbf,kbr
+ENO(bind!1,active~Y).PEP(bind!1) -> ENO(bind,active~Y) + PG2(bind)	kf
+
+PGM(bind,active~Y) + PG2(bind) <-> PGM(bind!1,active~Y).PG2(bind!1)	kbf,kbr
+PGM(bind!1,active~Y).PG2(bind!1) -> PGM(bind,active~Y) + PG3(bind)	kf
+
+PGK(bind,active~Y) + PG3(bind) <-> PGK(bind!1,active~Y).PG3(bind!1)	kbf,kbr
+PGK(bind!1,active~Y).PG3(bind!1) -> PGK(bind,active~Y) + BP13G(bind)	kf
+
+GAPDH(bind,active~Y) + BP13G(bind) <-> GAPDH(bind!1,active~Y).BP13G(bind!1)	kbf,kbr
+GAPDH(bind!1,active~Y).BP13G(bind!1) -> GAPDH(bind,active~Y) + GADP(bind)	kf
+
+ALDO(bind,active~Y) + GADP(bind) <-> ALDO(bind!1,active~Y).GADP(bind!1)	kbf,kbr
+ALDO(bind!1,active~Y).GADP(bind!1) -> ALDO(bind,active~Y) + F16BP(bind)	kf
+
+FBP(bind,active~Y) + F16BP(bind) <-> FBP(bind!1,active~Y).F16BP(bind!1)	kbf,kbr
+FBP(bind!1,active~Y).F16BP(bind!1) -> FBP(bind,active~Y) + F6P(bind)	kf
+
+GPI(bind,active~Y) + F6P(bind) <-> GPI(bind!1,active~Y).F6P(bind!1)	kbf,kbr
+GPI(bind!1,active~Y).F6P(bind!1) -> GPI(bind,active~Y) + G6P(bind)	kf
+
+G6PC(bind,active~Y) + G6P(bind) <-> G6PC(bind!1,active~Y).G6P(bind!1)	kbf,kbr
+G6PC(bind!1,active~Y).G6P(bind!1) -> G6PC(bind,active~Y) + Glucose(bind)	kf
+
+###############################
+###### Serine Synthesis #######
+###############################
+
+#PHGDH(bind,active~Y) + PG3(bind) <-> PHGDH(bind!1,active~Y).PG3(bind!1) kbf,kbr
+PHGDH(bind!1,active~Y).PG3(bind!1) -> PHGDH(bind,active~Y) + PHP3(bind)		kf
+
+#PSAT1(bind,active~Y) + PHP3(bind) <-> PSAT1(bind!1,active~Y).PHP3(bind!1) kbf,kbr
+PSAT1(bind!1,active~Y).PHP3(bind!1) -> PSAT1(bind,active~Y) + PS3(bind)		kf
+
+PSPH(bind,active~Y) + PS3(bind) <-> PSPH(bind!1,active~Y).PS3(bind!1) kbf,kbr
+PSPH(bind!1,active~Y).PS3(bind!1) -> PSPH(bind,active~Y) + Serine(bind)		kf
+
+###################################
+###### Pyruvate Consumption #######
+###################################
+ 
+Pyruvate(bind) + PDC(bind,active~Y) <-> Pyruvate(bind!1).PDC(bind!1,active~Y)	kbf/50,kbr
+Pyruvate(bind!1).PDC(bind!1,active~Y) -> AcetylCoA() + PDC(bind,active~Y)	kf/50
+
+##############################
+###### Serine Feedback #######
+##############################
+
+Serine(bind) + PKM2(ser) <-> Serine(bind!1).PKM2(ser!1) kbf*5,kbr
+
+#Serine needs to be consumed (decay). Independend of concentration?
+Serine() -> 0 kdeg DeleteMolecules
+#Serine() -> 0 kf/serine DeleteMolecules #could go negative
+
+PKM2(ser!+,bind,active~Y) + PEP(bind) <-> PKM2(ser!+,bind!1,active~Y).PEP(bind!1)	kbfp*10,kbr
+PKM2(ser!+,bind!1,active~Y).PEP(bind!1) -> PKM2(ser!+,bind,active~Y) + Pyruvate(bind)	kf
+
+PKM2(ser,bind,active~Y) + PEP(bind) <-> PKM2(ser,bind!1,active~Y).PEP(bind!1)	kbfp/10,kbr
+PKM2(ser,bind!1,active~Y).PEP(bind!1) -> PKM2(ser,bind,active~Y) + Pyruvate(bind)	kf
+
+PKM2().PEP() -> PKM2().PEP() + readout()	0.001
+
+#Do I want glucose at all times, wait for it to equil.
+#Do I want to spike glucose and have it depleted
+#Do I want glucose production to be dependent on amount, keep it relatively constant after initial spike in
+#0 -> Glucose(bind) kf*50
+0 -> Glucose(bind) kprod*(9000000-glucose) #(kf*50)/((100000-glucose)+.00001)
+#this may not work as i vary glucose levels. have to think about how to do those simulations.
+#Can turn this off or slow down to "starve"
+#Can still spike (new food source, change in media)
+# 
+# 
+# Want serine, glucose, pyruvate, to reach steady states, althuogh they can be further perturbed
+# Have to remember ACoA is currently a sink, won't necessarily be a good readout
+# May need to dump it into another sink if want to use it as a measure
+# Pyruvate should be allowed to be in flux, since it can be reversed. ACoA should be a measure of current TCA. Additional sink can be irrelevant.
+
+AcetylCoA() -> energy_sink()	kdeg
+
+end reaction rules
+
+#Actions
+visualize({type=>"contactmap"})
+generate_network({})
+
+#equilibrate
+setConcentration("Glucose(bind)",9000000)
+setConcentration("HK(bind,active~Y)",0)
+#setConcentration("PHGDH(bind,active~Y)",0)
+simulate_ode({suffix=>"equil",t_start=>0,t_end=>1e6,n_steps=>1000})
+
+##simulate
+##setConcentration("Glucose(bind)",100000)
+setConcentration("HK(bind,active~Y)","hk_0")
+simulate_ode({suffix=>"sim",t_start=>0,t_end=>6e6,n_steps=>1000})
+#
+###kprod		2.5
+#saveConcentrations()
+##setParameter("kprod",0.00025)
+#setParameter("kbfp",0)
+#simulate_ode({suffix=>"starve",t_start=>0,t_end=>5e4,n_steps=>1000})
+
+#setConcentration("Serine(bind)","serine_0")
+#setConcentration("HK(bind,active~Y)","hk_0")
+#parameter_scan({parameter=>"serine_0",par_min=>1e-3,par_max=>1e9,n_scan_pts=>1000,log_scale=>1,method=>"ode",t_end=>1e6,n_steps=>500})
+
+
+
+
+
