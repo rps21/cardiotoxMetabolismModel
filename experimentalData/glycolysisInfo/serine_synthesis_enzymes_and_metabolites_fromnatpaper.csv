@@ -1,0 +1,13 @@
+,3P glycerate,3PG,,,Alternative,,
+PHGDH,3P pyruvate,3PHP,,,,3P glycerate,
+PSAT1,3P serine,3PS,,,?,PE pyruvate,
+PSPH,Serine,Serine,,,PKM2,Pyruvate,
+,,,,,,Lactate/TCA,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,Serine and glycine metabolism in cancer
+,,,,,,,"Amelio et al., 2014, Trens Biochem Sci"
+,,,,,,,
+,,,,,,,Serine and one-carbon metabolism in cancer
+,,,,,,,"Yang and Vousden, 2016, Nat Rev Cancer"

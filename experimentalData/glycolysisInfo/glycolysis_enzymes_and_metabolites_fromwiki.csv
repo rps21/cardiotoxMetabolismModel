@@ -1,0 +1,11 @@
+,Glucose,,
+HK,G6P,,
+GPI,F6P,,
+PFK,"F1,6BP",,
+ALDO,GADP,DHAP,(TPI switches back and forth)
+GAPDH,"1,3BPG",,
+PGK,3PG,,
+PGM,2PG,,
+ENO,PEP,,
+PKM2,Pyruvate,,
+LDH,Lactate,,

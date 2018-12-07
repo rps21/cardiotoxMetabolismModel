@@ -1,0 +1,1 @@
+['PHGDH','PSAT1','PSPH','PKM2','PKM','PKLR','GDF15','glucose','3PG','2PG','PEP','Pyruvate','NADH','3PHP','3PHP','Glu','3PS','Serine','Glycine','PGM1','PGM3','GPI','PRF1','PFKM','FBP1','AKR1D1','TPI','GAPDH','PGK','PGAM4','GPMI','ENO1','LDHA','ACEE','PDC','PCK1','VDAC1','FDXR','ACCS','ACSBG1','ALDH1A1','ALDOB']
