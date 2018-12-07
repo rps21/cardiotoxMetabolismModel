@@ -1,0 +1,253 @@
+begin parameters
+
+	#Concentrations
+	glucose_0	0
+	pyruvate_0	0
+	lactate_0	0
+	serine_0	0
+	acetylcoa_0	0
+	
+	hk_0		1000
+	pgi_0		1000
+	pfk_0		1000
+	aldo_0		1000
+	gapdh_0		1000
+	pgk_0		1000
+	pgm_0		1000
+	eno_0		1000
+	pk_0		1000
+	
+	#gluconeogenesis specific
+	ldh_0		1000
+	pc_0		1000
+	pepck_0		1000	
+	fbp_0		1000
+	g6pc_0		1000				
+	
+	#serine synthesis
+	phgdh_0		1000
+	psat1_0		1000
+	psph_0		1000
+	
+	#pyruvate consumption
+	pdc_0		1000
+	
+	#Rates
+	kbf			5e-6
+	kbr			1e-1
+	kf			5e-1
+
+end parameters
+
+begin molecule types
+
+	#Enzymes
+	HK(bind,active~N~Y)
+	GPI(bind,active~N~Y)
+	PFK(bind,active~N~Y)
+	ALDO(bind,active~N~Y)
+	GAPDH(bind,active~N~Y)
+	PGK(bind,active~N~Y)
+	PGM(bind,active~N~Y)
+	ENO(bind,active~N~Y)
+	PKM2(bind,active~N~Y)
+	
+	#gluconeogeneis specific enzymes
+	LDH(bind,active~N~Y)
+	PC(bind,active~N~Y)
+	PEPCK(bind,active~N~Y)
+	G6PC(bind,active~N~Y)
+	FBP(bind,active~N~Y)
+	
+	#serine synthesis enzymes
+	PHGDH(bind,active~N~Y)
+	PSAT1(bind,active~N~Y)
+	PSPH(bind,active~N~Y)
+	
+	#pyruvate consumption enzymes
+	PDC(bind,active~N~Y)
+
+	#Metabolites
+	Glucose(bind)
+	G6P(bind)
+	F6P(bind)
+	F16BP(bind)
+	GADP(bind)
+	BP13G(bind)
+	PG3(bind)
+	PG2(bind)
+	PEP(bind)
+	Pyruvate(bind)
+	Lactate(bind)
+	Oxaloacetate(bind)
+	AcetylCoA()
+	
+	#serine synthesis metabolites
+	PHP3(bind)
+	PS3(bind)
+	Serine(bind)
+	
+end molecule types
+
+begin seed species
+
+	#Enzymes
+	HK(bind,active~Y)		hk_0
+	GPI(bind,active~Y)		pgi_0
+	PFK(bind,active~Y)		pfk_0
+	ALDO(bind,active~Y)		aldo_0
+	GAPDH(bind,active~Y)	gapdh_0
+	PGK(bind,active~Y)		pgk_0
+	PGM(bind,active~Y)		pgm_0
+	ENO(bind,active~Y)		eno_0
+	PKM2(bind,active~Y)		pk_0
+
+	#gluconeogenesis specific enzymes
+	LDH(bind,active~Y)		ldh_0
+	PC(bind,active~Y)		pc_0
+	PEPCK(bind,active~Y)	pepck_0
+	FBP(bind,active~Y)		fbp_0
+	G6PC(bind,active~Y)		g6pc_0
+	
+	#serine synthesis enzymes
+	PHGDH(bind,active~Y)	phgdh_0
+	PSAT1(bind,active~Y)	psat1_0
+	PSPH(bind,active~Y)		psph_0
+	
+	#pyruvate consumption enzymes
+	PDC(bind,active~Y)		pdc_0
+	
+	#Metabolites
+	Glucose(bind)			glucose_0
+	Pyruvate(bind)			pyruvate_0
+	Lactate(bind)			lactate_0
+	Serine(bind)			serine_0
+	AcetylCoA()				acetylcoa_0	
+		
+end seed species
+
+begin observables
+
+	Molecules	glucose		Glucose()
+	Molecules	g6p			G6P()
+	Molecules	f6p			F6P()
+	Molecules	f16bp		F16BP()
+	Molecules	gadp		GADP()
+	Molecules	bpg13		BP13G()
+	Molecules	pg3			PG3()
+	Molecules	pg2			PG2()
+	Molecules	pep			PEP()
+	Molecules	pyruvate	Pyruvate()
+	Molecules	lactate		Lactate()
+	Molecules	php3		PHP3()
+	Molecules	serine_p3	PS3()
+	Molecules	serine		Serine()
+	Molecules	acetyl_CoA	AcetylCoA()
+
+end observables
+
+begin reaction rules
+ 
+#Glycolysis
+HK(bind,active~Y) + Glucose(bind) <-> HK(bind!1,active~Y).Glucose(bind!1)	kbf,kbr
+HK(bind!1,active~Y).Glucose(bind!1) -> HK(bind,active~Y) + G6P(bind)	kf
+
+GPI(bind,active~Y) + G6P(bind) <-> GPI(bind!1,active~Y).G6P(bind!1)	kbf,kbr
+GPI(bind!1,active~Y).G6P(bind!1) -> GPI(bind,active~Y) + F6P(bind)	kf
+
+PFK(bind,active~Y) + F6P(bind) <-> PFK(bind!1,active~Y).F6P(bind!1)	kbf,kbr
+PFK(bind!1,active~Y).F6P(bind!1) -> PFK(bind,active~Y) + F16BP(bind)	kf
+
+ALDO(bind,active~Y) + F16BP(bind) <-> ALDO(bind!1,active~Y).F16BP(bind!1)	kbf,kbr
+ALDO(bind!1,active~Y).F16BP(bind!1) -> ALDO(bind,active~Y) + GADP(bind)	kf
+
+GAPDH(bind,active~Y) + GADP(bind) <-> GAPDH(bind!1,active~Y).GADP(bind!1)	kbf,kbr
+GAPDH(bind!1,active~Y).GADP(bind!1) -> GAPDH(bind,active~Y) + BP13G(bind)	kf
+
+PGK(bind,active~Y) + BP13G(bind) <-> PGK(bind!1,active~Y).BP13G(bind!1)	kbf,kbr
+PGK(bind!1,active~Y).BP13G(bind!1) -> PGK(bind,active~Y) + PG3(bind)	kf
+
+PGM(bind,active~Y) + PG3(bind) <-> PGM(bind!1,active~Y).PG3(bind!1)	kbf,kbr
+PGM(bind!1,active~Y).PG3(bind!1) -> PGM(bind,active~Y) + PG2(bind)	kf
+
+ENO(bind,active~Y) + PG2(bind) <-> ENO(bind!1,active~Y).PG2(bind!1)	kbf,kbr
+ENO(bind!1,active~Y).PG2(bind!1) -> ENO(bind,active~Y) + PEP(bind)	kf
+
+PKM2(bind,active~Y) + PEP(bind) <-> PKM2(bind!1,active~Y).PEP(bind!1)	kbf,kbr
+PKM2(bind!1,active~Y).PEP(bind!1) -> PKM2(bind,active~Y) + Pyruvate(bind)	kf
+
+###############################
+###### Gluconeogenesis ########
+###############################
+
+LDH(bind,active~Y) + Lactate(bind) <-> LDH(bind!1,active~Y).Lactate(bind!1)	kbf,kbr
+LDH(bind!1,active~Y).Lactate(bind!1) -> LDH(bind,active~Y) + Pyruvate(bind)	kf
+
+PC(bind,active~Y) + Pyruvate(bind) <-> PC(bind!1,active~Y).Pyruvate(bind!1)	kbf,kbr
+PC(bind!1,active~Y).Pyruvate(bind!1) -> PC(bind,active~Y) + Oxaloacetate(bind)	kf
+
+PEPCK(bind,active~Y) + Oxaloacetate(bind) <-> PEPCK(bind!1,active~Y).Oxaloacetate(bind!1)	kbf,kbr
+PEPCK(bind!1,active~Y).Oxaloacetate(bind!1) -> PEPCK(bind,active~Y) + PEP(bind)	kf
+
+ENO(bind,active~Y) + PEP(bind) <-> ENO(bind!1,active~Y).PEP(bind!1)	kbf,kbr
+ENO(bind!1,active~Y).PEP(bind!1) -> ENO(bind,active~Y) + PG2(bind)	kf
+
+PGM(bind,active~Y) + PG2(bind) <-> PGM(bind!1,active~Y).PG2(bind!1)	kbf,kbr
+PGM(bind!1,active~Y).PG2(bind!1) -> PGM(bind,active~Y) + PG3(bind)	kf
+
+PGK(bind,active~Y) + PG3(bind) <-> PGK(bind!1,active~Y).PG3(bind!1)	kbf,kbr
+PGK(bind!1,active~Y).PG3(bind!1) -> PGK(bind,active~Y) + BP13G(bind)	kf
+
+GAPDH(bind,active~Y) + BP13G(bind) <-> GAPDH(bind!1,active~Y).BP13G(bind!1)	kbf,kbr
+GAPDH(bind!1,active~Y).BP13G(bind!1) -> GAPDH(bind,active~Y) + GADP(bind)	kf
+
+ALDO(bind,active~Y) + GADP(bind) <-> ALDO(bind!1,active~Y).GADP(bind!1)	kbf,kbr
+ALDO(bind!1,active~Y).GADP(bind!1) -> ALDO(bind,active~Y) + F16BP(bind)	kf
+
+FBP(bind,active~Y) + F16BP(bind) <-> FBP(bind!1,active~Y).F16BP(bind!1)	kbf,kbr
+FBP(bind!1,active~Y).F16BP(bind!1) -> FBP(bind,active~Y) + F6P(bind)	kf
+
+GPI(bind,active~Y) + F6P(bind) <-> GPI(bind!1,active~Y).F6P(bind!1)	kbf,kbr
+GPI(bind!1,active~Y).F6P(bind!1) -> GPI(bind,active~Y) + G6P(bind)	kf
+
+G6PC(bind,active~Y) + G6P(bind) <-> G6PC(bind!1,active~Y).G6P(bind!1)	kbf,kbr
+G6PC(bind!1,active~Y).G6P(bind!1) -> G6PC(bind,active~Y) + Glucose(bind)	kf
+
+###############################
+###### Serine Synthesis #######
+###############################
+
+PHGDH(bind,active~Y) + PG3(bind) <-> PHGDH(bind!1,active~Y).PG3(bind!1) kbf/5,kbr
+PHGDH(bind!1,active~Y).PG3(bind!1) -> PHGDH(bind,active~Y) + PHP3(bind)		kf
+
+PSAT1(bind,active~Y) + PHP3(bind) <-> PSAT1(bind!1,active~Y).PHP3(bind!1) kbf,kbr
+PSAT1(bind!1,active~Y).PHP3(bind!1) -> PSAT1(bind,active~Y) + PS3(bind)		kf
+
+PSPH(bind,active~Y) + PS3(bind) <-> PSPH(bind!1,active~Y).PS3(bind!1) kbf,kbr
+PSPH(bind!1,active~Y).PS3(bind!1) -> PSPH(bind,active~Y) + Serine(bind)		kf
+
+###################################
+###### Pyruvate Consumption #######
+###################################
+# 
+Pyruvate(bind) + PDC(bind,active~Y) <-> Pyruvate(bind!1).PDC(bind!1,active~Y)	kbf,kbr
+Pyruvate(bind!1).PDC(bind!1,active~Y) -> AcetylCoA() + PDC(bind,active~Y)	kf
+
+
+end reaction rules
+
+#Actions
+visualize({type=>"contactmap"})
+generate_network({})
+
+#equilibrate
+setConcentration("Glucose(bind)",0)
+#setConcentration("PHGDH(bind,active~Y)",0)
+#simulate_ode({suffix=>"equil",t_start=>0,t_end=>1e6,n_steps=>1000})
+simulate_ssa({suffix=>"equil",t_start=>0,t_end=>1e6,n_steps=>1000})
+
+#simulate
+setConcentration("Glucose(bind)",200)
+#simulate_ode({t_start=>0,t_end=>24*60*60,n_steps=>500})
+simulate_ssa({t_start=>0,t_end=>24*60*60,n_steps=>500})
+
