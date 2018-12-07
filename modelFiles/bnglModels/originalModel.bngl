@@ -1,0 +1,105 @@
+begin model
+begin parameters
+  kf_ee_bind_1              1.000000e-06
+  kr_ee_bind_1              1.000000e-01
+  kf_ee_bind_2              1.000000e-06
+  kr_ee_bind_2              1.000000e-01
+  kf_eg_bind_1              1.000000e-06
+  kr_eg_bind_1              1.000000e-01
+  kf_es_bind_1              1.000000e-06
+  kr_es_bind_1              1.000000e-01
+  kf_kv_bind_1              1.000000e-06
+  kr_kv_bind_1              1.000000e-01
+  kf_ks_bind_1              1.000000e-06
+  kr_ks_bind_1              1.000000e-01
+  kf_ee_phosphorylation_1   1.000000e-06
+  kf_sk_phosphorylation_1   1.000000e-06
+  kf_kb_phosphorylation_1   1.000000e-06
+  kf_ks_phosphorylation_1   1.000000e-06
+  kf_sa_phosphorylation_1   1.000000e-06
+  SOS1_0                    1.000000e+04
+  AKT1_0                    1.000000e+04
+  KDR_0                     1.000000e+04
+  GRB2_0                    1.000000e+04
+  VEGFC_0                   1.000000e+04
+  KRAS_0                    1.000000e+04
+  BRAF_0                    1.000000e+04
+  EGF_0                     1.000000e+04
+  SRC_0                     1.000000e+04
+  EGFR_0                    1.000000e+04
+end parameters
+
+begin molecule types
+  SOS1(erbb)
+  AKT1(phospho~u~p)
+  KDR(vegf,src)
+  GRB2(erbb)
+  VEGFC(vegfr)
+  KRAS(phospho~u~p)
+  BRAF(phospho~u~p)
+  EGF(erbb)
+  SRC(vegfr,phospho~u~p)
+  EGFR(egfr_ligand,erbb,phospho~u~p,grb2,sos)
+end molecule types
+
+begin observables
+  Molecules SOS1_erbb_bound          SOS1(erbb!+)
+  Molecules AKT1_phospho_phos        AKT1(phospho~p)
+  Molecules KDR_vegf_bound           KDR(vegf!+)
+  Molecules KDR_src_bound            KDR(src!+)
+  Molecules GRB2_erbb_bound          GRB2(erbb!+)
+  Molecules VEGFC_vegfr_bound        VEGFC(vegfr!+)
+  Molecules KRAS_phospho_phos        KRAS(phospho~p)
+  Molecules BRAF_phospho_phos        BRAF(phospho~p)
+  Molecules EGF_erbb_bound           EGF(erbb!+)
+  Molecules SRC_vegfr_bound          SRC(vegfr!+)
+  Molecules SRC_phospho_phos         SRC(phospho~p)
+  Molecules EGFR_egfr_ligand_bound   EGFR(egfr_ligand!+)
+  Molecules EGFR_erbb_bound          EGFR(erbb!+)
+  Molecules EGFR_phospho_phos        EGFR(phospho~p)
+  Molecules EGFR_grb2_bound          EGFR(grb2!+)
+  Molecules EGFR_sos_bound           EGFR(sos!+)
+end observables
+
+begin species
+  SOS1(erbb)                                  SOS1_0
+  AKT1(phospho~u)                             AKT1_0
+  KDR(vegf,src)                               KDR_0
+  GRB2(erbb)                                  GRB2_0
+  VEGFC(vegfr)                                VEGFC_0
+  KRAS(phospho~u)                             KRAS_0
+  BRAF(phospho~u)                             BRAF_0
+  EGF(erbb)                                   EGF_0
+  SRC(vegfr,phospho~u)                        SRC_0
+  EGFR(egfr_ligand,erbb,phospho~u,grb2,sos)   EGFR_0
+end species
+
+begin reaction rules
+  EGF_EGFR_bind:                      EGF(erbb) + EGFR(egfr_ligand) -> EGF(erbb!1).EGFR(egfr_ligand!1)    kf_ee_bind_1
+  EGF_EGFR_dissociate:                EGF(erbb!1).EGFR(egfr_ligand!1) -> EGF(erbb) + EGFR(egfr_ligand)    kr_ee_bind_1
+  EGFR_EGFR_bind:                     EGFR(erbb) + EGFR(erbb) -> EGFR(erbb!1).EGFR(erbb!1)    kf_ee_bind_2
+  EGFR_EGFR_dissociate:               EGFR(erbb!1).EGFR(erbb!1) -> EGFR(erbb) + EGFR(erbb)    kr_ee_bind_2
+  EGFR_phospho_GRB2_bind:             EGFR(phospho~p!?,grb2) + GRB2(erbb) -> EGFR(phospho~p!?,grb2!1).GRB2(erbb!1)    kf_eg_bind_1
+  EGFR_GRB2_dissociate:               EGFR(grb2!1).GRB2(erbb!1) -> EGFR(grb2) + GRB2(erbb)    kr_eg_bind_1
+  EGFR_phospho_SOS1_bind:             EGFR(phospho~p!?,sos) + SOS1(erbb) -> EGFR(phospho~p!?,sos!1).SOS1(erbb!1)    kf_es_bind_1
+  EGFR_SOS1_dissociate:               EGFR(sos!1).SOS1(erbb!1) -> EGFR(sos) + SOS1(erbb)    kr_es_bind_1
+  KDR_VEGFC_bind:                     KDR(vegf) + VEGFC(vegfr) -> KDR(vegf!1).VEGFC(vegfr!1)    kf_kv_bind_1
+  KDR_VEGFC_dissociate:               KDR(vegf!1).VEGFC(vegfr!1) -> KDR(vegf) + VEGFC(vegfr)    kr_kv_bind_1
+  KDR_VEGFC_SRC_bind:                 KDR(vegf!+,src) + SRC(vegfr) -> KDR(vegf!+,src!1).SRC(vegfr!1)    kf_ks_bind_1
+  KDR_SRC_dissociate:                 KDR(src!1).SRC(vegfr!1) -> KDR(src) + SRC(vegfr)    kr_ks_bind_1
+  EGFR_phosphorylation_EGFR_phospho:  EGFR() + EGFR(phospho~u) -> EGFR() + EGFR(phospho~p)    kf_ee_phosphorylation_1
+  SOS1_phosphorylation_KRAS_phospho:  SOS1() + KRAS(phospho~u) -> SOS1() + KRAS(phospho~p)    kf_sk_phosphorylation_1
+  KRAS_phosphorylation_BRAF_phospho:  KRAS() + BRAF(phospho~u) -> KRAS() + BRAF(phospho~p)    kf_kb_phosphorylation_1
+  KDR_phosphorylation_SRC_phospho:    KDR() + SRC(phospho~u) -> KDR() + SRC(phospho~p)    kf_ks_phosphorylation_1
+  SRC_phosphorylation_AKT1_phospho:   SRC() + AKT1(phospho~u) -> SRC() + AKT1(phospho~p)    kf_sa_phosphorylation_1
+end reaction rules
+
+end model
+generate_network({overwrite=>1})
+writeMexfile()
+setConcentration("EGF(erbb)",0)
+simulate({suffix=>"equil",method=>"ode",t_end=>1e7,n_steps=>500,atol=>1e-8,rtol=>1e-8})
+setConcentration("EGF(erbb)",1e4)
+simulate({method=>"ode",t_start=>0,t_end=>36000,n_steps=>1000,atol=>1e-8,rtol=>1e-8});
+visualize({type=>"contactmap"})
+visualize({type=>"regulatory",groups=>1,collapse=>1})

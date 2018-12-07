@@ -1,0 +1,74 @@
+begin model
+begin parameters
+  kf_pp_bind_1                1.000000e-06
+  kr_pp_bind_1                1.000000e-01
+  kf_pp_dephosphorylation_1   1.000000e-06
+  kf_sp_dephosphorylation_1   1.000000e-06
+  kf_ps_phosphorylation_1     1.000000e-06
+  kf_pp_phosphorylation_1     1.000000e-06
+  kf_sp_phosphorylation_1     1.000000e-06
+  kf_sp_phosphorylation_2     1.000000e-06
+  kf_gp_dephosphorylation_1   1.000000e-06
+  kf_gs_dephosphorylation_1   1.000000e-06
+  kf_gp_phosphorylation_1     1.000000e-06
+  PDGFB_0                     1.000000e+04
+  PKM_0                       1.000000e+04
+  SRC_0                       1.000000e+04
+  SORAFENIB_0                 1.000000e+04
+  GenericAgent_0              1.000000e+04
+  PDGFRA_0                    1.000000e+04
+  PTPN6_0                     1.000000e+04
+end parameters
+
+begin molecule types
+  PDGFB(pdgfr)
+  PKM(phos_act~u~p)
+  SRC(phos_act~u~p)
+  SORAFENIB()
+  GenericAgent()
+  PDGFRA(phos_act~u~p,pdgf)
+  PTPN6(phos_act~u~p)
+end molecule types
+
+begin observables
+  Molecules PDGFB_pdgfr_bound      PDGFB(pdgfr!+)
+  Molecules PKM_phos_act_phos      PKM(phos_act~p)
+  Molecules SRC_phos_act_phos      SRC(phos_act~p)
+  Molecules PDGFRA_phos_act_phos   PDGFRA(phos_act~p)
+  Molecules PDGFRA_pdgf_bound      PDGFRA(pdgf!+)
+  Molecules PTPN6_phos_act_phos    PTPN6(phos_act~p)
+end observables
+
+begin species
+  PDGFB(pdgfr)              PDGFB_0
+  PKM(phos_act~u)           PKM_0
+  SRC(phos_act~u)           SRC_0
+  SORAFENIB()               SORAFENIB_0
+  GenericAgent()            GenericAgent_0
+  PDGFRA(phos_act~u,pdgf)   PDGFRA_0
+  PTPN6(phos_act~u)         PTPN6_0
+end species
+
+begin reaction rules
+  PDGFB_PDGFRA_bind:                                          PDGFB(pdgfr) + PDGFRA(pdgf) -> PDGFB(pdgfr!1).PDGFRA(pdgf!1)    kf_pp_bind_1
+  PDGFB_PDGFRA_dissociate:                                    PDGFB(pdgfr!1).PDGFRA(pdgf!1) -> PDGFB(pdgfr) + PDGFRA(pdgf)    kr_pp_bind_1
+  PTPN6_phosphophos_act_dephosphorylation_PKM_phos_act:       PTPN6(phos_act~p!?) + PKM(phos_act~p) -> PTPN6(phos_act~p!?) + PKM(phos_act~u)    kf_pp_dephosphorylation_1
+  SORAFENIB_dephosphorylation_PDGFRA_phos_act:                SORAFENIB() + PDGFRA(phos_act~p) -> SORAFENIB() + PDGFRA(phos_act~u)    kf_sp_dephosphorylation_1
+  PDGFRA_phosphophos_act_phosphorylation_SRC_phos_act:        PDGFRA(phos_act~p!?) + SRC(phos_act~u) -> PDGFRA(phos_act~p!?) + SRC(phos_act~p)    kf_ps_phosphorylation_1
+  PDGFRA_PDGFB_phosphorylation_PDGFRA_phos_act:               PDGFRA(pdgf!+) + PDGFRA(phos_act~u) -> PDGFRA(pdgf!+) + PDGFRA(phos_act~p)    kf_pp_phosphorylation_1
+  SRC_phosphophos_act_phosphorylation_PTPN6_phos_act:         SRC(phos_act~p!?) + PTPN6(phos_act~u) -> SRC(phos_act~p!?) + PTPN6(phos_act~p)    kf_sp_phosphorylation_1
+  GenericAgent_dephosphorylation_PTPN6_phos_act:              GenericAgent() + PTPN6(phos_act~p) -> GenericAgent() + PTPN6(phos_act~u)    kf_gp_dephosphorylation_1
+  GenericAgent_dephosphorylation_SRC_phos_act:                GenericAgent() + SRC(phos_act~p) -> GenericAgent() + SRC(phos_act~u)    kf_gs_dephosphorylation_1
+  GenericAgent_phosphorylation_PKM_phosphophos_act_phos_act:  GenericAgent() + PKM(phos_act~p!?) -> GenericAgent() + PKM(phos_act~p!?)    kf_gp_phosphorylation_1
+end reaction rules
+
+end model
+
+generate_network({overwrite=>1})
+writeMexfile()
+setConcentration("SORAFENIB()",0)
+simulate({suffix=>"equil",method=>"ode",t_end=>1e7,n_steps=>500,atol=>1e-8,rtol=>1e-8})
+setConcentration("SORAFENIB()",1e4)
+simulate({method=>"ode",t_start=>0,t_end=>36000,n_steps=>1000,atol=>1e-8,rtol=>1e-8});
+visualize({type=>"contactmap"})
+visualize({type=>"regulatory",groups=>1,collapse=>1})

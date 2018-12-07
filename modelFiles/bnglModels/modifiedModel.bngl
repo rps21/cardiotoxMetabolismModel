@@ -1,0 +1,113 @@
+begin model
+begin parameters
+  kf_eg_bind_1                1.000000e-06
+  kr_eg_bind_1                1.000000e-01
+  kf_es_bind_1                1.000000e-06
+  kr_es_bind_1                1.000000e-01
+  kf_ee_bind_1                1.000000e-06
+  kr_ee_bind_1                1.000000e-01
+  kf_kv_bind_1                1.000000e-06
+  kr_kv_bind_1                1.000000e-01
+  kf_ks_bind_1                1.000000e-06
+  kr_ks_bind_1                1.000000e-01
+  kf_ee_phosphorylation_1     1.000000e-06
+  kf_ks_phosphorylation_1     1.000000e-06
+  kf_kb_phosphorylation_1     1.000000e-06
+  kf_sk_phosphorylation_1     1.000000e-06
+  kf_sa_phosphorylation_1     1.000000e-06
+  kf_ga_dephosphorylation_1   1.000000e-06
+  kf_gb_dephosphorylation_1   1.000000e-06
+  kf_ge_dephosphorylation_1   1.000000e-06
+  kf_gk_dephosphorylation_1   1.000000e-06
+  kf_gs_dephosphorylation_1   1.000000e-06
+  GenericAgent_0              1.000000e+04
+  SOS1_0                      1.000000e+04
+  AKT1_0                      1.000000e+04
+  KDR_0                       1.000000e+04
+  GRB2_0                      1.000000e+04
+  VEGFC_0                     1.000000e+04
+  KRAS_0                      1.000000e+04
+  BRAF_0                      1.000000e+04
+  EGF_0                       1.000000e+04
+  SRC_0                       1.000000e+04
+  EGFR_0                      1.000000e+04
+end parameters
+
+begin molecule types
+  GenericAgent()
+  SOS1(erbb)
+  AKT1(phos_act~u~p)
+  KDR(vegf,src)
+  GRB2(erbb)
+  VEGFC(vegfr)
+  KRAS(phos_act~u~p)
+  BRAF(phos_act~u~p)
+  EGF(erbb)
+  SRC(phos_act~u~p,vegfr)
+  EGFR(phos_act~u~p,grb2,sos,egfr_ligand)
+end molecule types
+
+begin observables
+  Molecules SOS1_erbb_bound          SOS1(erbb!+)
+  Molecules AKT1_phos_act_phos       AKT1(phos_act~p)
+  Molecules KDR_vegf_bound           KDR(vegf!+)
+  Molecules KDR_src_bound            KDR(src!+)
+  Molecules GRB2_erbb_bound          GRB2(erbb!+)
+  Molecules VEGFC_vegfr_bound        VEGFC(vegfr!+)
+  Molecules KRAS_phos_act_phos       KRAS(phos_act~p)
+  Molecules BRAF_phos_act_phos       BRAF(phos_act~p)
+  Molecules EGF_erbb_bound           EGF(erbb!+)
+  Molecules SRC_phos_act_phos        SRC(phos_act~p)
+  Molecules SRC_vegfr_bound          SRC(vegfr!+)
+  Molecules EGFR_phos_act_phos       EGFR(phos_act~p)
+  Molecules EGFR_grb2_bound          EGFR(grb2!+)
+  Molecules EGFR_sos_bound           EGFR(sos!+)
+  Molecules EGFR_egfr_ligand_bound   EGFR(egfr_ligand!+)
+end observables
+
+begin species
+  GenericAgent()                          GenericAgent_0
+  SOS1(erbb)                              SOS1_0
+  AKT1(phos_act~u)                        AKT1_0
+  KDR(vegf,src)                           KDR_0
+  GRB2(erbb)                              GRB2_0
+  VEGFC(vegfr)                            VEGFC_0
+  KRAS(phos_act~u)                        KRAS_0
+  BRAF(phos_act~u)                        BRAF_0
+  EGF(erbb)                               EGF_0
+  SRC(phos_act~u,vegfr)                   SRC_0
+  EGFR(phos_act~u,grb2,sos,egfr_ligand)   EGFR_0
+end species
+
+begin reaction rules
+  EGFR_phosphophos_act_GRB2_bind:                                EGFR(phos_act~p!?,grb2) + GRB2(erbb) -> EGFR(phos_act~p!?,grb2!1).GRB2(erbb!1)    kf_eg_bind_1
+  EGFR_GRB2_dissociate:                                          EGFR(grb2!1).GRB2(erbb!1) -> EGFR(grb2) + GRB2(erbb)    kr_eg_bind_1
+  EGFR_phosphophos_act_SOS1_bind:                                EGFR(phos_act~p!?,sos) + SOS1(erbb) -> EGFR(phos_act~p!?,sos!1).SOS1(erbb!1)    kf_es_bind_1
+  EGFR_SOS1_dissociate:                                          EGFR(sos!1).SOS1(erbb!1) -> EGFR(sos) + SOS1(erbb)    kr_es_bind_1
+  EGF_EGFR_bind:                                                 EGF(erbb) + EGFR(egfr_ligand) -> EGF(erbb!1).EGFR(egfr_ligand!1)    kf_ee_bind_1
+  EGF_EGFR_dissociate:                                           EGF(erbb!1).EGFR(egfr_ligand!1) -> EGF(erbb) + EGFR(egfr_ligand)    kr_ee_bind_1
+  KDR_VEGFC_bind:                                                KDR(vegf) + VEGFC(vegfr) -> KDR(vegf!1).VEGFC(vegfr!1)    kf_kv_bind_1
+  KDR_VEGFC_dissociate:                                          KDR(vegf!1).VEGFC(vegfr!1) -> KDR(vegf) + VEGFC(vegfr)    kr_kv_bind_1
+  KDR_VEGFC_SRC_bind:                                            KDR(vegf!+,src) + SRC(vegfr) -> KDR(vegf!+,src!1).SRC(vegfr!1)    kf_ks_bind_1
+  KDR_SRC_dissociate:                                            KDR(src!1).SRC(vegfr!1) -> KDR(src) + SRC(vegfr)    kr_ks_bind_1
+  EGFR_EGF_phosphorylation_EGFR_phos_act:                        EGFR(egfr_ligand!+) + EGFR(phos_act~u) -> EGFR(egfr_ligand!+) + EGFR(phos_act~p)    kf_ee_phosphorylation_1
+  KDR_VEGFC_phosphorylation_SRC_phos_act:                        KDR(vegf!+) + SRC(phos_act~u) -> KDR(vegf!+) + SRC(phos_act~p)    kf_ks_phosphorylation_1
+  KRAS_phosphophos_act_phosphorylation_BRAF_phos_act:            KRAS(phos_act~p!?) + BRAF(phos_act~u) -> KRAS(phos_act~p!?) + BRAF(phos_act~p)    kf_kb_phosphorylation_1
+  SOS1_EGFR_phosphorylation_KRAS_phos_act:                       SOS1(erbb!+) + KRAS(phos_act~u) -> SOS1(erbb!+) + KRAS(phos_act~p)    kf_sk_phosphorylation_1
+  SRC_phosphophos_act_phosphorylation_AKT1_phos_act:             SRC(phos_act~p!?) + AKT1(phos_act~u) -> SRC(phos_act~p!?) + AKT1(phos_act~p)    kf_sa_phosphorylation_1
+  GenericAgent_dephosphorylation_AKT1_phosphophos_act_phos_act:  GenericAgent() + AKT1(phos_act~p) -> GenericAgent() + AKT1(phos_act~u)    kf_ga_dephosphorylation_1
+  GenericAgent_dephosphorylation_BRAF_phosphophos_act_phos_act:  GenericAgent() + BRAF(phos_act~p) -> GenericAgent() + BRAF(phos_act~u)    kf_gb_dephosphorylation_1
+  GenericAgent_dephosphorylation_EGFR_phosphophos_act_phos_act:  GenericAgent() + EGFR(phos_act~p) -> GenericAgent() + EGFR(phos_act~u)    kf_ge_dephosphorylation_1
+  GenericAgent_dephosphorylation_KRAS_phosphophos_act_phos_act:  GenericAgent() + KRAS(phos_act~p) -> GenericAgent() + KRAS(phos_act~u)    kf_gk_dephosphorylation_1
+  GenericAgent_dephosphorylation_SRC_phosphophos_act_phos_act:   GenericAgent() + SRC(phos_act~p) -> GenericAgent() + SRC(phos_act~u)    kf_gs_dephosphorylation_1
+end reaction rules
+
+end model
+generate_network({overwrite=>1})
+writeMexfile()
+setConcentration("EGF(erbb)",0)
+simulate({suffix=>"equil",method=>"ode",t_end=>1e7,n_steps=>500,atol=>1e-8,rtol=>1e-8})
+setConcentration("EGF(erbb)",1e4)
+simulate({method=>"ode",t_start=>0,t_end=>36000,n_steps=>1000,atol=>1e-8,rtol=>1e-8});
+visualize({type=>"contactmap"})
+visualize({type=>"regulatory",groups=>1,collapse=>1})

@@ -1,0 +1,28 @@
+begin model
+begin parameters
+  kf_sk_gef_1   1.000000e-06
+  kf_sk_gef_2   1.000000e-06
+  kf_kb_act_1   1.000000e-06
+  BRAF_0        1.000000e+04
+  KRAS_0        1.000000e+04
+  SOS1_0        1.000000e+04
+end parameters
+
+begin molecule types
+  BRAF(kinase~inactive~active)
+  KRAS(gtpbound~inactive~active)
+  SOS1(catalytic~inactive~active)
+end molecule types
+
+begin species
+  BRAF(kinase~inactive)      BRAF_0
+  KRAS(gtpbound~inactive)    KRAS_0
+  SOS1(catalytic~inactive)   SOS1_0
+end species
+
+begin reaction rules
+  SOS1_activates_KRAS:         SOS1(catalytic~active) + KRAS(gtpbound~inactive) -> SOS1(catalytic~active) + KRAS(gtpbound~active)    kf_sk_gef_1
+  KRAS_activates_BRAF_kinase:  KRAS(gtpbound~active) + BRAF(kinase~inactive) -> KRAS(gtpbound~active) + BRAF(kinase~active)    kf_kb_act_1
+end reaction rules
+
+end model
